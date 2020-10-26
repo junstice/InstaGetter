@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Grandstander:wght@600&display=swap" rel="stylesheet">
+
+    <title>Instagetter - Let's get the images and videos from Instagram!</title>
+</head>
+<body>
+    <div class="container">
+        <br>
+        
+        <!-- TITLE ROW -->
+        <div class="row">
+            <div class="col" style="text-align: center; font-family: 'Grandstander', cursive; font-size: 38px;">Instagetter</div>
+        </div>
+        <br>
+        
+        <!-- URL INPUT ROW -->
+        <div class="row">
+            <div class="col"></div>
+            <div class="col">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="여기에 URL 붙여넣기!" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                      <button type="button" class="btn btn-dark" id="btnGet" style="font-family: 'Grandstander', cursive;">GET!</button>
+                    </div>
+                  </div>
+            </div>
+            <div class="col"></div>
+        </div>
+        <br>
+        
+        <!-- GET RESULT ROW -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <p class="card-text">검색 결과 이미지 혹은 동영상에 마우스 우클릭하여</p>
+                        <p class="card-text">'이미지(또는 동영상)를 다른 이름으로 저장(V)...'을 선택하여 저장하세요.</p>
+                    </div>
+                    <div class="card-body" id="card-img-res">
+                        <!-- https://scontent-ssn1-1.cdninstagram.com/v/t51.2885-15/e35/s1080x1080/121778401_336640257433588_2209545712920321204_n.jpg?_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_cat=104&_nc_ohc=hKhQ27lS2FgAX9ZOBXN&_nc_tp=15&oh=b423a0da466ad2dc0347c8881539f5c7&oe=5FBAD430 -->
+                        <img src="" class="card-img-top" alt="...">
+                        <img src="" alt="">
+                        <video src=""></video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const btnGet = document.getElementById("btnGet");
+
+        btnGet.addEventListener("click", function(e) {
+            alert("click!");
+        }, false);
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+</body>
+</html>
