@@ -1,2 +1,2 @@
 # InstaGetter
-* Vue.js
+* with Pure Javascript
