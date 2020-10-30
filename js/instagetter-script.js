@@ -1,41 +1,53 @@
-// for debug
-// document.getElementById("targetUrl").value = "abcde";
-document.getElementById("targetUrl").value = "https://www.instagram.com/p/CGiueXRMR1M/?utm_source=ig_web_copy_link";
+// [for debug]
+document.getElementById("targetUrl").value = "https://www.instagram.com/p/CG9ScwUl8sx/?utm_source=ig_web_copy_link";
 
 /* GET! 버튼 클릭 */
 const btnGet = document.getElementById("btnGet");
 btnGet.addEventListener("click", () => {
     
     let targetUrl = document.getElementById("targetUrl").value;
-	let xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
+    let targetScript = "";
 
     xhr.open("GET", targetUrl, true);
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState == 4 && xhr.status == 200) {
 			
-            // console.log(this.responseText);
-            
-            let domparser = new DOMParser();
-			let xmlDoc = domparser.parseFromString(xhr.responseText, "text/html");
-			let srcElements = xmlDoc.getElementsByTagName("script");
             let imgUrl = "";
+
+            // DOMParser
+            let domparser = new DOMParser();
             
+            // html parsing
+            let xmlDoc = domparser.parseFromString(xhr.responseText, "text/html");
+            
+            // <script> 태그를 선택
+            let srcElements = xmlDoc.getElementsByTagName("script");
+            
+            // <script> 태그 수만큼 loop
             for (let i = 0; i < srcElements.length; i++) {
-                // console.log(srcElements[i]);
+                
+                // <script> 태그 내에 쓰여진 스크립트 텍스트 취득
                 let script = (srcElements[i].innerText);
+                
+                // 이미지, 동영상 정보가 있는 스크립트를 판정하여 변수에 저장
                 if (script.indexOf("window._sharedData = ") !== -1) {
-                    console.log("찾았다!");
-                    console.log(script.replace("window._sharedData = ", ""));
-                    
+                    targetScript = script.replace("window._sharedData = ", "").replace(";", "");
                     break;
-                }                
+                }
             }
+
+            console.log(targetScript);
+
+            // 이미지 한 장만 있을 때
+            // const targetObj = JSON.parse(targetScript).entry_data.PostPage[0].graphql.shortcode_media.display_resources;
+            // imgUrl = targetObj[targetObj.length - 1].src;
             
-            // 여러장 이미지와 한 장 이미지는 스크립트가 달라 분기 처리 필요
-            
-            let elmImg = document.createElement("img")
-            document.getElementById("card-img-res").appendChild(elmImg);
-            elmImg.src = imgUrl;
+            // 이미지 한 장 append
+            // let elmImg = document.createElement("img");
+            // document.getElementById("card-img-res").appendChild(elmImg);
+            // elmImg.className = "card-img-top";
+            // elmImg.src = imgUrl;
 		}
 	}
 	xhr.send();
