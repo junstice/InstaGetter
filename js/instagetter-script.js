@@ -48,6 +48,21 @@ btnGet.addEventListener("click", () => {
             // document.getElementById("card-img-res").appendChild(elmImg);
             // elmImg.className = "card-img-top";
             // elmImg.src = imgUrl;
+
+            // 이미지와 영상 등 여럿 있을 때
+            const targetObj = JSON.parse(targetScript).entry_data.PostPage[0].graphql.shortcode_media.edge_sidecar_to_children.edges;
+            console.log(targetObj);
+            console.log(targetObj[0].node.__typename); // 영상: "GraphVideo", 사진: "GraphImage"
+            console.log(targetObj[0].node.video_url); // 영상: "video_url", 사진: "display_url"
+            imgUrl = targetObj[0].node.video_url;
+
+            // 영상 append
+            let elmVideo = document.createElement("video");
+            document.getElementById("card-img-res").appendChild(elmVideo);
+            elmVideo.src = imgUrl;
+            elmVideo.className = "card-img-top";
+            elmVideo.controls = "controls";
+            elmVideo.type = "video/mp4";
 		}
 	}
 	xhr.send();
