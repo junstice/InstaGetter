@@ -1,7 +1,9 @@
+/* 타이틀 폰트: 메인 타이틀, 오버레이 타이틀, 버튼 텍스트 */
 .font-title {
     font-family: 'Grandstander', cursive;
 }
 
+/* 설명 폰트: 오버레이 내용 */
 .font-desc {
     font-family: 'Nanum Gothic', sans-serif;
 }

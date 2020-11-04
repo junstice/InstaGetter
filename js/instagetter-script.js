@@ -1,18 +1,28 @@
-// [for debug]
-document.getElementById("targetUrl").value = "https://www.instagram.com/p/CG9ScwUl8sx/?utm_source=ig_web_copy_link";
 
 /* GET! 버튼 클릭 */
 const btnGet = document.getElementById("btnGet");
 btnGet.addEventListener("click", () => {
-    
-    let targetUrl = document.getElementById("targetUrl").value;
-    let xhr = new XMLHttpRequest();
-    let targetScript = "";
 
+    // clear child of result <div>
+    document.getElementById("card-img-res").textContent = "";
+    
+    // 입력된 url
+    const targetUrl = document.getElementById("targetUrl").value;
+    
+    // url check
+    if (!validateTargetUrl(targetUrl)) return;
+    
+    // open GET request to targetUrl
+    let xhr = new XMLHttpRequest();
     xhr.open("GET", targetUrl, true);
-	xhr.onreadystatechange = function() {
-		if (xhr.readyState == 4 && xhr.status == 200) {
-			
+    
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            
+            // response로 받아와 script를 저장할 변수
+            let targetScript = "";
+        
+            // 출력할 영상/사진의 url
             let imgUrl = "";
 
             // DOMParser
@@ -37,35 +47,89 @@ btnGet.addEventListener("click", () => {
                 }
             }
 
-            console.log(targetScript);
+            // console.log(targetScript);
 
-            // 이미지 한 장만 있을 때
-            // const targetObj = JSON.parse(targetScript).entry_data.PostPage[0].graphql.shortcode_media.display_resources;
-            // imgUrl = targetObj[targetObj.length - 1].src;
+            // 다음 위치에 정의된 오브젝트를 이용하여 다운로드 미디어를 탐색 함
+            const condObj = JSON.parse(targetScript).entry_data.PostPage[0].graphql.shortcode_media;
             
-            // 이미지 한 장 append
-            // let elmImg = document.createElement("img");
-            // document.getElementById("card-img-res").appendChild(elmImg);
-            // elmImg.className = "card-img-top";
-            // elmImg.src = imgUrl;
+            // 업로드 된 미디어가 여럿인지 아닌지 "edge_sidecar_to_children"를 이용하여 판단
+            if (condObj.edge_sidecar_to_children) {
+                
+                // 키 값 "edge_sidecar_to_children"이 있을 경우: 하나 이상의 사진과 영상이 있음
+                const targetObj = condObj.edge_sidecar_to_children.edges;
 
-            // 이미지와 영상 등 여럿 있을 때
-            const targetObj = JSON.parse(targetScript).entry_data.PostPage[0].graphql.shortcode_media.edge_sidecar_to_children.edges;
-            console.log(targetObj);
-            console.log(targetObj[0].node.__typename); // 영상: "GraphVideo", 사진: "GraphImage"
-            console.log(targetObj[0].node.video_url); // 영상: "video_url", 사진: "display_url"
-            imgUrl = targetObj[0].node.video_url;
+                // 업로드 된 미디어 갯수만큼 loop
+                for (let i = 0; i < targetObj.length; i++) {
+                    
+                    // 영상
+                    if (targetObj[i].node.__typename === "GraphVideo") {
+                        
+                        // video_url 값으로 url 설정
+                        imgUrl = targetObj[i].node.video_url;
 
-            // 영상 append
-            let elmVideo = document.createElement("video");
-            document.getElementById("card-img-res").appendChild(elmVideo);
-            elmVideo.src = imgUrl;
-            elmVideo.className = "card-img-top";
-            elmVideo.controls = "controls";
-            elmVideo.type = "video/mp4";
+                        // video DOM 추가
+                        let elmVideo = document.createElement("video");
+                        elmVideo.src = imgUrl;
+                        elmVideo.className = "card-img-top";
+                        elmVideo.controls = "controls";
+                        elmVideo.type = "video/mp4";
+                        
+                        // video DOM append
+                        document.getElementById("card-img-res").appendChild(elmVideo);
+                    }
+                    // 사진
+                    else if (targetObj[i].node.__typename === "GraphImage") {
+
+                        // display_url 값으로 url 설정
+                        imgUrl = targetObj[i].node.display_url;
+                        
+                        // img DOM 추가
+                        let elmImg = document.createElement("img");
+                        elmImg.className = "card-img-top";
+                        elmImg.src = imgUrl;
+                        
+                        // video DOM append
+                        document.getElementById("card-img-res").appendChild(elmImg);
+                    }
+
+                    // 구분선 그리기
+                    document.getElementById("card-img-res").appendChild(document.createElement("hr"));
+                }
+            }
+
+            else {
+                
+                // 키 값 "edge_sidecar_to_children"이 없을 경우: 하나의 사진 혹은 영상이 있음
+                // 영상
+                if (condObj.__typename === "GraphVideo") {
+                    // video_url 값으로 url 설정
+                    imgUrl = condObj.video_url;
+
+                    // video DOM 추가
+                    let elmVideo = document.createElement("video");
+                    document.getElementById("card-img-res").appendChild(elmVideo);
+                    elmVideo.src = imgUrl;
+                    elmVideo.className = "card-img-top";
+                    elmVideo.controls = "controls";
+                    elmVideo.type = "video/mp4";
+                } 
+                // 사진
+                else if (condObj.__typename === "GraphImage") {
+                    // video_url 값으로 url 설정
+                    imgUrl = condObj.display_url;
+
+                    // img DOM 추가
+                    let elmImg = document.createElement("img");
+                    document.getElementById("card-img-res").appendChild(elmImg);
+                    elmImg.className = "card-img-top";
+                    elmImg.src = imgUrl;
+                }
+            }
 		}
 	}
-	xhr.send();
+    
+    // send GET request to targetUrl
+    xhr.send();
 }, false);
 
 /* ? 버튼 클릭 */
@@ -82,4 +146,21 @@ function openNav() {
 /* Instagetter 정보 영역 닫기 */
 function closeNav() {
     document.getElementById("infoNav").style.width = "0%";
+}
+
+/* 인스타그램 게시물 링크를 복사한 url 검증 */
+function validateTargetUrl(url) {
+    let result = false;
+
+    if (!url) {
+        alert("인스타그램 게시물의 링크를 복사하여 URL을 입력해주세요!");
+    
+    } else if (!url.startsWith("https://www.instagram.com/p/")) {
+        alert("정보를 가져올 수 없는 URL 형식입니다.");
+    
+    } else {
+        result = true;
+    }
+    
+    return result;
 }
