@@ -138,12 +138,12 @@ btnInfo.addEventListener("click", () => {
     openNav();
 }, false);
 
-/* Instagetter 정보 영역 열기 */
+/* Getstagram 정보 영역 열기 */
 function openNav() {
     document.getElementById("infoNav").style.width = "50%";
 }
 
-/* Instagetter 정보 영역 닫기 */
+/* Getstagram 정보 영역 닫기 */
 function closeNav() {
     document.getElementById("infoNav").style.width = "0%";
 }
