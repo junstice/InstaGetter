@@ -1,2 +1,2 @@
-# InstaGetter
+# Getstagram
 * with Pure Javascript
