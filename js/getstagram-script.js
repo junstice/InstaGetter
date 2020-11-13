@@ -42,7 +42,7 @@ btnGet.addEventListener("click", () => {
                 
                 // 이미지, 동영상 정보가 있는 스크립트를 판정하여 변수에 저장
                 if (script.indexOf("window._sharedData = ") !== -1) {
-                    targetScript = script.replace("window._sharedData = ", "").replace(";", "");
+                    targetScript = script.replace("window._sharedData = ", "").slice(0, -1);
                     break;
                 }
             }

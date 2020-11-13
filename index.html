@@ -45,14 +45,17 @@
 </div>  
 
 <body>
-    <!-- INFO BUTTON -->
-    <input type="image" id="btnInfo" src="img/question.png" style="z-index: 1; position: fixed; left: 0px; top: 0px; width: 50px;">
-    <label for="btnInfo" class="font-desc" style="z-index: 1; position: fixed; left: 0px; top: 50px;">사용법</label>
-    
     <!-- CONTENTS CODE START -->
     <div class="container">
+        <!-- 광고 영역 -->
+        <p>
+            <ins class="kakao_ad_area" style="display:none;" 
+                data-ad-unit    = "DAN-owh738wOWk1S5pte" 
+                data-ad-width   = "320" 
+                data-ad-height  = "100"></ins> 
+            <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+        </p>
         <br>
-        
         <!-- TITLE ROW -->
         <div class="row">
             <img style="margin-left: auto; margin-right: auto;" src="img/logo-1-transparent.png" alt="Getstagram" width="100" height="100">
@@ -64,7 +67,11 @@
         
         <!-- URL INPUT ROW -->
         <div class="row">
-            <div class="col-2"></div>
+            <div class="col-2 img-container">
+                <input type="image" id="btnInfo" src="img/question.png" style="width: 30px;">
+                <!-- <img src="img/question.png" alt="사용법" id="btnInfo" style="width: 30px;"> -->
+                <label for="btnInfo" class="font-desc" style="font-size: 10px;">사용법</label>
+            </div>
             <div class="col-8">
                 <div class="input-group">
                     <input type="text" id="targetUrl" class="form-control" placeholder="여기에 URL 붙여넣기!" aria-label="Recipient's username" aria-describedby="basic-addon2">
@@ -82,8 +89,10 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <p class="card-text">검색 결과 이미지 혹은 동영상에 마우스 우클릭하여</p>
+                        <p class="card-text">검색 상자 왼쪽에 있는 사용법 내용을 꼭 한 번 확인해 주세요!</p>
+                        <p class="card-text">검색 결과로 표시되는 이미지 혹은 동영상에 마우스 우클릭하여</p>
                         <p class="card-text">'이미지(또는 동영상)를 다른 이름으로 저장(V)...'을 선택하여 저장하세요.</p>
+                        <p class="card-text">※ 비공개 계정의 게시물인 경우에는 URL을 복사하여 실행해도 결과가 표시되지 않습니다.</p>
                     </div>
                     <div class="card-body" id="card-img-res">
                         <!-- RESULT IMAGES AND VIDEOS ARE APPENDED HERE -->
@@ -106,6 +115,5 @@
     <!-- Initialize Firebase -->
     <script src="/__/firebase/init.js"></script>
 
-    <script data-ad-client="ca-pub-6630095840984426" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </body>
 </html>
